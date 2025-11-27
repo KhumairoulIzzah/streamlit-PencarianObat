@@ -10,50 +10,97 @@ from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFacto
 # ===============================
 st.set_page_config(page_title="Pencarian Obat - Skripsi", layout="wide")
 
+# ===============================
+#        LANDING PAGE UI
+# ===============================
+
+# inject CSS
 st.markdown("""
 <style>
 
-body {
-    background: white !important;
-}
-
-.search-box {
-    padding: 20px;
-    background: #87CEFA;   /* sky blue */
-    border-radius: 14px;
+.header-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 600;
+    margin-top: -20px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+    color: #1f2a37;
 }
 
-.result-card {
-    background: white;
-    padding: 18px;
-    border-radius: 16px;
-    margin-bottom: 16px;
-    box-shadow: 0 0 12px rgba(0, 136, 255, 0.35);   /* blue glow */
-    border-left: 4px solid #0099ff;
+.search-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -10px;
+    margin-bottom: 20px;
 }
 
-.obat-title {
-    font-weight: 700;
-    font-size: 20px;
-    color: #1b1b1b;
+.search-box-custom textarea {
+    border: 2px solid #1A5F7A !important;
+    border-radius: 30px !important;
+    padding: 14px 20px !important;
+    font-size: 16px !important;
 }
 
-.score {
-    font-size: 14px;
-    color: #006eff;
-    font-weight: bold;
+.search-button {
+    display: flex;
+    justify-content: center;
+    margin-top: -10px;
+    margin-bottom: 20px;
 }
 
-.separator {
-    border-left: 3px solid #dcdde1;
-    height: 100%;
-    margin: 0 25px;
+.search-button button {
+    background: white !important;
+    color: #1A5F7A !important;
+    border-radius: 25px !important;
+    padding: 6px 30px !important;
+    border: 2px solid #1A5F7A !important;
+    font-size: 18px !important;
+}
+
+.search-button button:hover {
+    background: #1A5F7A !important; 
+    color: white !important;
+    border-color: #1A5F7A !important;
+}
+
+.bg-image {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    opacity: 0.30;         /* transparansi 30% */
+    z-index: -1;
 }
 
 </style>
 """, unsafe_allow_html=True)
+
+
+# ===============================
+#        TAMPILAN AWAL
+# ===============================
+
+# judul
+st.markdown("<div class='header-title'>PENCARIAN OBAT BERDASARKAN GEJALA</div>", unsafe_allow_html=True)
+
+# gambar pojok kanan (bg-obat.png)
+st.markdown(
+    f"""
+    <img src='data:image/png;base64,{open("bg-obat.png", "rb").read().encode("base64").decode()}' 
+    class='bg-image' width='280'>
+    """,
+    unsafe_allow_html=True
+)
+
+# search box  
+st.markdown("<div class='search-wrapper'>", unsafe_allow_html=True)
+gejala = st.text_area(" ", placeholder="Tulis gejala anda disini", height=60, label_visibility="collapsed", key="searchbox")
+st.markdown("</div>", unsafe_allow_html=True)
+
+# tombol cari
+st.markdown("<div class='search-button'>", unsafe_allow_html=True)
+run = st.button("cari")
+st.markdown("</div>", unsafe_allow_html=True)
 
 # ===============================
 # ======== LOAD DATA ============
