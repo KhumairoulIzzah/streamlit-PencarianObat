@@ -204,7 +204,7 @@ if run and gejala.strip() != "":
     # ==========================
     with col_left:
         st.subheader("⚪ UNIGRAM RESULT")
-        hasil_uni = cari_obat(gejala, "unigram").head(5)
+        hasil_uni = cari_obat(gejala, "unigram").head(3)
 
         for _, row in hasil_uni.iterrows():
             st.markdown(f"""
@@ -226,7 +226,7 @@ if run and gejala.strip() != "":
     # ==========================
     with col_right:
         st.subheader("🔵 BIGRAM RESULT")
-        hasil_bi = cari_obat(gejala, "bigram").head(5)
+        hasil_bi = cari_obat(gejala, "bigram").head(3)
 
         for _, row in hasil_bi.iterrows():
             st.markdown(f"""
