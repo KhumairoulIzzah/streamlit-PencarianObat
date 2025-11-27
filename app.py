@@ -239,18 +239,6 @@ def cari_obat(text, mode="unigram"):
     return pd.DataFrame(hasil, columns=["Nama Obat", "Skor", "Keterangan"]) \
              .sort_values("Skor", ascending=False)
 
-# ===============================
-# ============ UI ===============
-# ===============================
-
-st.title("🔍 Pencarian Obat Berdasarkan Gejala")
-st.write("Masukkan gejala lalu sistem akan mencarikan obat paling relevan berdasarkan metode Unigram & Bigram.")
-
-# ========== SEARCH BOX ==========
-st.markdown('<div class="search-box">', unsafe_allow_html=True)
-gejala = st.text_area("Masukkan gejala di sini:", height=100)
-run = st.button("Cari Obat 🔎")
-st.markdown('</div>', unsafe_allow_html=True)
 
 # ========== OUTPUT ==========
 if run and gejala.strip() != "":
