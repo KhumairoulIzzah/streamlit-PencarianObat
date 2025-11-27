@@ -110,22 +110,6 @@ st.markdown("""
 st.markdown("<div class='header-title'>PENCARIAN OBAT BERDASARKAN GEJALA</div>", unsafe_allow_html=True)
 
 
-# =========================================================
-#               LOAD GAMBAR BG POJOK KANAN
-# =========================================================
-def load_image_base64(path):
-    with open(path, "rb") as f:
-        return base64.b64encode(f.read()).decode()
-
-img_base64 = load_image_base64("bg-obat.png")
-
-st.markdown(
-    f"""
-    <img src="data:image/png;base64,{img_base64}" class="bg-image">
-    """,
-    unsafe_allow_html=True
-)
-
 
 # =========================================================
 #                 SEARCH BOX & BUTTON
@@ -272,7 +256,7 @@ if run and gejala.strip() != "":
     #       UNIGRAM
     # ======================
     with col_left:
-        st.subheader("⚪ UNIGRAM RESULT")
+        st.subheader("♡ UNIGRAM RESULT")
         hasil_uni = cari_obat(gejala, "unigram").head(3)
 
         for _, row in hasil_uni.iterrows():
@@ -294,7 +278,7 @@ if run and gejala.strip() != "":
     #        BIGRAM
     # ======================
     with col_right:
-        st.subheader("🔵 BIGRAM RESULT")
+        st.subheader("♡ BIGRAM RESULT")
         hasil_bi = cari_obat(gejala, "bigram").head(3)
 
         for _, row in hasil_bi.iterrows():
