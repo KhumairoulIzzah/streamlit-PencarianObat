@@ -84,26 +84,24 @@ st.markdown("""
 st.markdown("<div class='header-title'>PENCARIAN OBAT BERDASARKAN GEJALA</div>", unsafe_allow_html=True)
 
 # gambar pojok kanan (bg-obat.png)
+import base64
+
+# fungsi load gambar bg-obat
+def load_image_base64(path):
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
+img_base64 = load_image_base64("bg-obat.png")
+
+# tampilkan gambar di pojok kanan
 st.markdown(
     f"""
-    <img src='data:image/png;base64,{open("bg-obat.png", "rb").read().encode("base64").decode()}' 
-    class='bg-image' width='280'>
-    import base64
-
-    def load_image_base64(path):
-        with open(path, "rb") as f:
-            return base64.b64encode(f.read()).decode()
-    
-    img_base64 = load_image_base64("bg-obat.png")
-    
-    st.markdown(f"""
-        <img src="data:image/png;base64,{img_base64}" 
-             class="bg-image" width="280">
-    """, unsafe_allow_html=True)
-
+    <img src="data:image/png;base64,{img_base64}" 
+         class="bg-image" width="280">
     """,
     unsafe_allow_html=True
 )
+
 
 # search box  
 st.markdown("<div class='search-wrapper'>", unsafe_allow_html=True)
