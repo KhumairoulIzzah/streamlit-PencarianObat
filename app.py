@@ -132,6 +132,34 @@ st.markdown("<div class='search-button'>", unsafe_allow_html=True)
 run = st.button("Cari")
 st.markdown("</div>", unsafe_allow_html=True)
 
+# ============================
+#     LIVE CHARACTER COUNTER
+# ============================
+
+max_char = 400      # batas maksimal karakter
+curr_char = len(gejala)
+
+# warna indikator
+if curr_char < max_char * 0.7:
+    color = "green"
+elif curr_char < max_char:
+    color = "orange"
+else:
+    color = "red"
+
+st.markdown(
+    f"<div style='text-align:center; margin-top:-10px; color:{color}; font-size:14px;'>"
+    f"{curr_char}/{max_char} karakter"
+    f"</div>",
+    unsafe_allow_html=True
+)
+
+# stop jika input terlalu panjang
+if curr_char > max_char:
+    st.error(f"Ndoro ayu, input melebihi batas {max_char} karakter 🙏")
+    st.stop()
+
+
 
 # =========================================================
 #                         LOAD DATASET
