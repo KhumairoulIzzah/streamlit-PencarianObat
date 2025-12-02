@@ -156,7 +156,7 @@ st.markdown(
 
 # stop jika input terlalu panjang
 if curr_char > max_char:
-    st.error(f"Ndoro ayu, input melebihi batas {max_char} karakter 🙏")
+    st.error(f"input anda melebihi batas {max_char} karakter")
     st.stop()
 
 
