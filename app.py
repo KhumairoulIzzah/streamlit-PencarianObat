@@ -115,11 +115,30 @@ st.markdown("<div class='header-title'>PENCARIAN OBAT BERDASARKAN GEJALA</div>",
 #                 SEARCH BOX & BUTTON
 # =========================================================
 st.markdown("<div class='search-wrapper'>", unsafe_allow_html=True)
+
+col1, col2 = st.columns([1,1])
+
+with col1:
+    st.markdown(
+        "<div style='font-size:16px; font-weight:600; color:#1A5F7A; margin-bottom:6px;'>"
+        "Tuliskan gejala anda dibawah ini:"
+        "</div>",
+        unsafe_allow_html=True
+    )
+
+with col2:
+    st.markdown(
+        "<div style='font-size:16px; font-weight:600; text-align:right; color:#1A5F7A; margin-bottom:6px;'>"
+        "minimal 2 kata"
+        "</div>",
+        unsafe_allow_html=True
+    )
+
 st.markdown("<div class='search-box-custom'>", unsafe_allow_html=True)
 
 gejala = st.text_area(
     "",
-    placeholder="Tulis gejala anda disini...",
+    placeholder="",          # kosongin placeholder
     height=60,
     label_visibility="collapsed",
     key="searchbox"
@@ -131,6 +150,7 @@ st.markdown("</div>", unsafe_allow_html=True)
 st.markdown("<div class='search-button'>", unsafe_allow_html=True)
 run = st.button("Cari")
 st.markdown("</div>", unsafe_allow_html=True)
+
 
 # ============================
 #     LIVE CHARACTER COUNTER
