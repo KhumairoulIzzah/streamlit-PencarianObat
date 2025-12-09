@@ -51,7 +51,7 @@ st.markdown("""
 
 /* --- BUTTON CARI --- */
 .search-button button {
-    background: #ffffff !important;
+    background: #8792AE !important;
     color: #1A5F7A !important;
     border-radius: 30px !important;
     padding: 8px 35px !important;
