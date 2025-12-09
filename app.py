@@ -18,6 +18,12 @@ st.set_page_config(page_title="Pencarian Obat Berdasarkan Gejala", layout="wide"
 st.markdown("""
 <style>
 
+/* ==== BLUE SKY BACKGROUND PAGE ==== */
+[data-testid="stAppViewContainer"] {
+    background: #E0F4FF !important;   /* blue sky */
+}
+
+
 /* --- HEADER --- */
 .header-title {
     text-align: center;
