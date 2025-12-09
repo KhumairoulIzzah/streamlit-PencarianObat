@@ -37,11 +37,11 @@ st.markdown("""
 
 /* --- SEARCH BOX --- */
 .search-box-custom textarea {
-    border: 2px solid #1A5F7A !important;
+    border: 2px solid #FFFFFF !important;
     border-radius: 40px !important;
     padding: 15px 22px !important;
     font-size: 17px !important;
-    background: #ffffff !important;
+    background: #8792AE !important;
 }
 
 .search-wrapper {
