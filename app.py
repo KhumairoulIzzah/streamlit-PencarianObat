@@ -20,7 +20,7 @@ st.markdown("""
 
 /* ==== BLUE SKY BACKGROUND PAGE ==== */
 [data-testid="stAppViewContainer"] {
-    background: #E0F4FF !important;   /* blue sky */
+    background: #F5F8F9 !important;   /* blue sky */
 }
 
 
