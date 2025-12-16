@@ -6,12 +6,12 @@ from collections import Counter
 from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory
 
 # =========================================================
-#                      PAGE CONFIG
+# PAGE CONFIG
 # =========================================================
 st.set_page_config(page_title="Pencarian Obat Berdasarkan Gejala", layout="wide")
 
 # =========================================================
-#                           CSS
+# CSS
 # =========================================================
 st.markdown("""
 <style>
@@ -66,14 +66,16 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =========================================================
-#                       HEADER
+# HEADER
 # =========================================================
 st.markdown("<div class='header-title'>PENCARIAN OBAT BERDASARKAN GEJALA</div>", unsafe_allow_html=True)
 
 # =========================================================
-#                 INPUT GEJALA
+# INPUT GEJALA
 # =========================================================
+st.markdown("<div class='search-box-custom'>", unsafe_allow_html=True)
 gejala = st.text_area("", height=60, label_visibility="collapsed")
+st.markdown("</div>", unsafe_allow_html=True)
 
 jumlah_kata = len(gejala.strip().split())
 
@@ -88,10 +90,12 @@ if jumlah_kata < 2 and gejala.strip() != "":
     """, unsafe_allow_html=True)
     st.markdown("<div style='color:red;text-align:center'>Gejala minimal 2 kata</div>", unsafe_allow_html=True)
 
+st.markdown("<div class='search-button'>", unsafe_allow_html=True)
 run = st.button("Cari", disabled=(jumlah_kata < 2))
+st.markdown("</div>", unsafe_allow_html=True)
 
 # =========================================================
-#                     LOAD DATA
+# LOAD DATA
 # =========================================================
 df = pd.read_csv("data_obat.csv")
 gt_df = pd.read_excel("data_query.xlsx")
@@ -101,10 +105,11 @@ stopwords = set(stop_factory.get_stop_words())
 tanda_baca = ['.', ',', '-', ':', ';', '/', '(', ')']
 
 # =========================================================
-#                     PREPROCESSING
+# PREPROCESSING
 # =========================================================
 def cleaning(text):
-    text = re.sub(r"[0-9]", "", text.lower())
+    text = text.lower()
+    text = re.sub(r"[0-9]", "", text)
     for ch in tanda_baca:
         text = text.replace(ch, "")
     return text
@@ -120,7 +125,7 @@ df["bigram"] = df["clean"].apply(lambda x: ngram(x,2))
 nama_obat_list = df["Nama obat"].tolist()
 
 # =========================================================
-#                     TF-IDF
+# TF-IDF
 # =========================================================
 def build_tfidf(list_ngram):
     vocab = sorted(set(w for doc in list_ngram for w in doc))
@@ -143,7 +148,7 @@ tfidf_uni = build_tfidf(df["unigram"])
 tfidf_bi  = build_tfidf(df["bigram"])
 
 # =========================================================
-#                     QUERY VECTOR
+# QUERY VECTOR
 # =========================================================
 def proses_gejala(text):
     t = remove_stopwords(tokenize(cleaning(text)))
@@ -157,7 +162,7 @@ def proses_gejala(text):
     return v1, v2
 
 # =========================================================
-#                     COSINE SEARCH
+# COSINE SEARCH
 # =========================================================
 def cari_obat(text, mode="unigram"):
     v1, v2 = proses_gejala(text)
@@ -177,13 +182,20 @@ def cari_obat(text, mode="unigram"):
     return pd.DataFrame(hasil, columns=["Nama Obat","Skor","Keterangan"]).sort_values("Skor", ascending=False)
 
 # =========================================================
-#               GROUND TRUTH & PRECISION
+# GROUND TRUTH & PRECISION
 # =========================================================
-def get_ground_truth(q):
-    row = gt_df[gt_df["query"].str.lower() == q.lower()]
+def get_ground_truth(query_input):
+    query_input = query_input.lower()
+    row = gt_df[gt_df["query"].str.lower().str.contains(query_input)]
+
     if row.empty:
         return []
-    return [x.strip() for x in row.iloc[0]["daftar_obat"].split(",")]
+
+    obat = []
+    for x in row["daftar_obat"]:
+        obat.extend([o.strip() for o in x.split(",")])
+
+    return list(set(obat))
 
 def precision_at_3(df_hasil, gt):
     top3 = df_hasil.head(3)["Nama Obat"].tolist()
@@ -191,7 +203,7 @@ def precision_at_3(df_hasil, gt):
     return len(relevan)/3
 
 # =========================================================
-#                     OUTPUT
+# OUTPUT
 # =========================================================
 if run and gejala.strip() != "":
 
@@ -201,22 +213,25 @@ if run and gejala.strip() != "":
     with col1:
         st.subheader("UNIGRAM")
         h = cari_obat(gejala,"unigram")
+
         if h["Skor"].max() == 0:
             st.info("Tidak ada kata yang cocok")
         else:
-            for _,r in h.head(3).iterrows():
-                st.markdown(f"<div class='result-card'><div class='obat-title'>{r['Nama Obat']}</div><div class='score'>Skor: {r['Skor']:.4f}</div><p>{r['Keterangan']}</p></div>", unsafe_allow_html=True)
             if gt:
                 st.markdown(f"<b>Precision@3:</b> {precision_at_3(h,gt):.2f}", unsafe_allow_html=True)
+
+            for _,r in h.head(3).iterrows():
+                st.markdown(f"<div class='result-card'><div class='obat-title'>{r['Nama Obat']}</div><div class='score'>Skor: {r['Skor']:.4f}</div><p>{r['Keterangan']}</p></div>", unsafe_allow_html=True)
 
     with col2:
         st.subheader("BIGRAM")
         h = cari_obat(gejala,"bigram")
+
         if h["Skor"].max() == 0:
             st.info("Tidak ada kata yang cocok")
         else:
-            for _,r in h.head(3).iterrows():
-                st.markdown(f"<div class='result-card'><div class='obat-title'>{r['Nama Obat']}</div><div class='score'>Skor: {r['Skor']:.4f}</div><p>{r['Keterangan']}</p></div>", unsafe_allow_html=True)
             if gt:
                 st.markdown(f"<b>Precision@3:</b> {precision_at_3(h,gt):.2f}", unsafe_allow_html=True)
 
+            for _,r in h.head(3).iterrows():
+                st.markdown(f"<div class='result-card'><div class='obat-title'>{r['Nama Obat']}</div><div class='score'>Skor: {r['Skor']:.4f}</div><p>{r['Keterangan']}</p></div>", unsafe_allow_html=True)
