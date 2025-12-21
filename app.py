@@ -79,7 +79,13 @@ st.markdown("</div>", unsafe_allow_html=True)
 
 jumlah_kata = len(gejala.strip().split())
 
-if jumlah_kata < 2 and gejala.strip() != "":
+st.markdown(
+    "<div style='font-size:13px; color:#666;'>maksimal 20 kata</div>",
+    unsafe_allow_html=True
+)
+
+# validasi warna merah
+if (jumlah_kata < 2 and gejala.strip() != "") or jumlah_kata > 20:
     st.markdown("""
     <style>
     textarea {
@@ -88,10 +94,17 @@ if jumlah_kata < 2 and gejala.strip() != "":
     }
     </style>
     """, unsafe_allow_html=True)
-    st.markdown("<div style='color:red;text-align:center'>Gejala minimal 2 kata</div>", unsafe_allow_html=True)
 
-st.markdown("<div class='search-button'>", unsafe_allow_html=True)
-run = st.button("Cari", disabled=(jumlah_kata < 2))
+if jumlah_kata < 2 and gejala.strip() != "":
+    st.markdown("<div style='color:red'>Minimal 2 kata</div>", unsafe_allow_html=True)
+
+if jumlah_kata > 20:
+    st.markdown("<div style='color:red'>Maksimal 20 kata</div>", unsafe_allow_html=True)
+
+run = st.button(
+    "Cari",
+    disabled=(jumlah_kata < 2 or jumlah_kata > 20)
+)
 st.markdown("</div>", unsafe_allow_html=True)
 
 # =========================================================
