@@ -273,35 +273,36 @@ if run and gejala.strip() != "":
     # ======================
     with col_left:
         st.subheader("♡ UNIGRAM RESULT")
-        hasil_uni = cari_obat(gejala, "unigram").head(3)
+        hasil_uni = cari_obat(gejala, "unigram")
 
-        for _, row in hasil_uni.iterrows():
-            st.markdown(f"""
-            <div class="result-card">
-                <div class="obat-title">{row['Nama Obat']}</div>
-                <div class="score">Skor: {row['Skor']:.4f}</div>
-                <p>{row['Keterangan']}</p>
-            </div>
-            """, unsafe_allow_html=True)
-
-    # ======================
-    #     SEPARATOR
-    # ======================
-    with col_mid:
-        st.markdown("<div class='separator'></div>", unsafe_allow_html=True)
+        if hasil_uni["Skor"].max() == 0:
+            st.info("Tidak ada kata yang cocok")
+        else:
+            for _, row in hasil_uni.head(3).iterrows():
+                st.markdown(f"""
+                <div class="result-card">
+                    <div class="obat-title">{row['Nama Obat']}</div>
+                    <div class="score">Skor: {row['Skor']:.4f}</div>
+                    <p>{row['Keterangan']}</p>
+                </div>
+                """, unsafe_allow_html=True)
 
     # ======================
     #        BIGRAM
     # ======================
     with col_right:
         st.subheader("♡ BIGRAM RESULT")
-        hasil_bi = cari_obat(gejala, "bigram").head(3)
+        hasil_bi = cari_obat(gejala, "bigram")
 
-        for _, row in hasil_bi.iterrows():
-            st.markdown(f"""
-            <div class="result-card">
-                <div class="obat-title">{row['Nama Obat']}</div>
-                <div class="score">Skor: {row['Skor']:.4f}</div>
-                <p>{row['Keterangan']}</p>
-            </div>
-            """, unsafe_allow_html=True)
+        if hasil_bi["Skor"].max() == 0:
+            st.info("Tidak ada kata yang cocok")
+        else:
+            for _, row in hasil_bi.head(3).iterrows():
+                st.markdown(f"""
+                <div class="result-card">
+                    <div class="obat-title">{row['Nama Obat']}</div>
+                    <div class="score">Skor: {row['Skor']:.4f}</div>
+                    <p>{row['Keterangan']}</p>
+                </div>
+                """, unsafe_allow_html=True)
+
