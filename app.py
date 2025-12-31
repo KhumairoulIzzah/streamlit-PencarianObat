@@ -95,13 +95,8 @@ st.markdown("</div>", unsafe_allow_html=True)
 
 jumlah_kata = len(gejala.strip().split())
 
-st.markdown(
-    "<div style='font-size:13px; color:#666; text-align:right;'>maksimal 15 kata</div>",
-    unsafe_allow_html=True
-)
-
 # validasi warna merah
-if (jumlah_kata < 2 and gejala.strip() != "") or jumlah_kata > 20:
+if (jumlah_kata < 2 and gejala.strip() != "") or jumlah_kata > 15:
     st.markdown("""
     <style>
     textarea {
