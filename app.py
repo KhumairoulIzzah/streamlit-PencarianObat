@@ -125,31 +125,32 @@ st.markdown("</div>", unsafe_allow_html=True)
 
 
 # ============================
-#     LIVE CHARACTER COUNTER
+#     LIVE WORD COUNTER
 # ============================
 
-max_char = 15      # batas maksimal karakter
-curr_char = len(gejala)
+max_kata = 15
+jumlah_word_input = len(gejala.strip().split())
 
 # warna indikator
-if curr_char < max_char * 0.7:
+if jumlah_word_input < max_kata * 0.7:
     color = "green"
-elif curr_char < max_char:
+elif jumlah_word_input < max_kata:
     color = "orange"
 else:
     color = "red"
 
 st.markdown(
     f"<div style='text-align:center; margin-top:-10px; color:{color}; font-size:14px;'>"
-    f"{curr_char}/{max_char} karakter"
+    f"{jumlah_word_input}/{max_kata} kata"
     f"</div>",
     unsafe_allow_html=True
 )
 
 # stop jika input terlalu panjang
-if curr_char > max_char:
-    st.error(f"input anda melebihi batas {max_char} karakter")
+if jumlah_word_input > max_kata:
+    st.error(f"input anda melebihi batas {max_kata} kata")
     st.stop()
+
 
 
 
