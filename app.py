@@ -96,7 +96,7 @@ st.markdown("</div>", unsafe_allow_html=True)
 jumlah_kata = len(gejala.strip().split())
 
 st.markdown(
-    "<div style='font-size:13px; color:#666;'>maksimal 20 kata</div>",
+    "<div style='font-size:13px; align: right; color:#666;'>maksimal 15 kata</div>",
     unsafe_allow_html=True
 )
 
