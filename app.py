@@ -266,19 +266,21 @@ def cari_obat(text, mode="unigram"):
 # =========================================================
 if run and gejala.strip() != "":
 
-    col_left, col_mid, col_right = st.columns([5,0.3,5])
+    col_left, col_mid, col_right = st.columns([5, 0.3, 5])
 
     # ======================
     #       UNIGRAM
     # ======================
     with col_left:
         st.subheader("♡ UNIGRAM RESULT")
-        hasil_uni = cari_obat(gejala, "unigram")
 
-        if hasil_uni["Skor"].max() == 0:
+        hasil_uni = cari_obat(gejala, "unigram")
+        hasil_uni_valid = hasil_uni[hasil_uni["Skor"] > 0].head(3)
+
+        if hasil_uni_valid.empty:
             st.info("Tidak ada kata yang cocok")
         else:
-            for _, row in hasil_uni.head(3).iterrows():
+            for _, row in hasil_uni_valid.iterrows():
                 st.markdown(f"""
                 <div class="result-card">
                     <div class="obat-title">{row['Nama Obat']}</div>
@@ -292,12 +294,14 @@ if run and gejala.strip() != "":
     # ======================
     with col_right:
         st.subheader("♡ BIGRAM RESULT")
-        hasil_bi = cari_obat(gejala, "bigram")
 
-        if hasil_bi["Skor"].max() == 0:
+        hasil_bi = cari_obat(gejala, "bigram")
+        hasil_bi_valid = hasil_bi[hasil_bi["Skor"] > 0].head(3)
+
+        if hasil_bi_valid.empty:
             st.info("Tidak ada kata yang cocok")
         else:
-            for _, row in hasil_bi.head(3).iterrows():
+            for _, row in hasil_bi_valid.iterrows():
                 st.markdown(f"""
                 <div class="result-card">
                     <div class="obat-title">{row['Nama Obat']}</div>
@@ -305,4 +309,5 @@ if run and gejala.strip() != "":
                     <p>{row['Keterangan']}</p>
                 </div>
                 """, unsafe_allow_html=True)
+
 
